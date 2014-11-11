@@ -33,8 +33,7 @@ class StateMachine {
 	function __construct($initialState = null, $stateMutator = null) {
 		if ($initialState)
 			$this->init($initialState);
-		if (is_callable($stateMutator))
-			$this->mutator = $stateMutator;
+		$this->mutator = $stateMutator;
 		$self = $this;
 		$this->eventUpdater = function ($type, $state, $callable) use ($self) {
 			$self->events[$type][$state][] = $callable;
@@ -262,7 +261,8 @@ class StateMachine {
 	function allowedTriggers($args = null, $evalDynamic = false) {
 		$config = $this->getConfig($this->state, false);
 		if (!$config)
-			return false;
+			return array();
+		$data = $this->resolveData($args);
 		$lista = $config->transitions;
 		$parentConfig = $this->getParent($this->state);
 		while ($parentConfig) {
@@ -273,7 +273,6 @@ class StateMachine {
 			}
 			$parentConfig = $this->getParent($parentConfig->parent);
 		}
-		$data = $this->resolveData($args);
 		$result = array();
 		/** @var  $trans Transition */
 		foreach ($lista as $trigger => $trans) {
