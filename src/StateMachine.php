@@ -155,8 +155,8 @@ class StateMachine {
 
 		$trans = $this->tryFindHandler($this->state, $trigger);
 		if (!$trans) {
-			if (is_callable($this->events['unhandled'])) {
-				call_user_func($this->events['unhandled'], ['trigger' => $trigger, 'state' => $this->state]);
+			if (!empty($this->events['unhandled'])) {
+				$this->fireEvent('unhandled', null, ['trigger' => $trigger, 'state' => $this->state], null);
 				return false;
 			} else {
 				throw new StateMachineException("Trigger $trigger not found for state " . $this->state . ' or parent states');

@@ -119,15 +119,20 @@ function onOff() {
 		printTransition($event);
 	});
 
+	$flujo->onUnhandledTrigger(function ($info) {
+		echo 'Trigger ' . $info['trigger'] . " not found\n";
+	});
+
 	$flujo->init('off');
 
 	$flujo->fire(' ');
 	$flujo->fire(' ');
 	$flujo->fire(' ');
+	$flujo->fire('00');
 
 	var_dump($flujo->allowedTriggers());
 }
 
-//bugTracker();
-//onOff();
+onOff();
+bugTracker();
 telephone();
