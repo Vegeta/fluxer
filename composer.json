@@ -1,0 +1,23 @@
+{
+    "name": "vegeta/fluxer",
+    "description": "Simple and flexible all purpose State Machine and Workflow library",
+	"version" : "0.1.0",
+	"type": "library",
+	"keywords": ["statemachine", "state", "callback", "event", "workflow", "finite"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Manolo Gomez",
+			"role": "Author"
+        }
+    ],
+    "minimum-stability": "dev",
+	"require": {
+		"php": ">=5.3.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Fluxer\\": "src"
+		}
+	}
+}
