@@ -283,6 +283,28 @@ class StateMachine {
 		}
 		return $result;
 	}
+
+	/**
+	 * Sets a function to be called after a transition to the specified state occurs
+	 * @param $state
+	 * @param $callable
+	 * @return $this
+	 */
+	function onEntryFor($state, $callable) {
+		$this->events['entry'][$state] = $callable;
+		return $this;
+	}
+
+	/**
+	 * Sets a function to be called before a transition to the specified state occurs
+	 * @param $state
+	 * @param $callable
+	 * @return $this
+	 */
+	function onExitFor($state, $callable) {
+		$this->events['exit'][$state] = $callable;
+		return $this;
+	}
 }
 
 class StateConfigHolder {
