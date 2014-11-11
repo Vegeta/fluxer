@@ -17,8 +17,8 @@ $phone->forState('ringing')
 	->permit('callConnected', 'connected');
 
 $phone->forState('connected')
-	->onEntry(function($event() { startTimer();	})
-	->onExit(function($event() { stopTimer(); })
+	->onEntry(function($event) { startTimer();	})
+	->onExit(function($event) { stopTimer(); })
 	->permit('leftMessage', 'offHook')
 	->permit('hungUp', 'offHook')
 	->permit('placedOnHold', 'onHold');
