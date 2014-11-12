@@ -122,8 +122,7 @@ transition (onTransition) and after leaving the state (onExit).
 
 An event is defined as a callback function with the following signature: function ($transition, $userData) {},
 where $transition is an array that contains the current transition information ('source', 'trigger', 'destination') and 
-$userData is any user defined value passed to the event, being the current data context or a custom parameter used in the call
-to fire(), canFire() or allowedTriggers().
+$userData is any user defined value passed to the event, being the current data context or a custom parameter used in the call to fire(), canFire() or allowedTriggers().
 
 Callbacks can be anything that qualifies as a 'callable', being an anonymous function or a reference to a method
 in the form array(object|class, method) as it is usual in php.
@@ -137,6 +136,7 @@ class Logger {
 		echo "\n";
 	}
 }
+...
 
 $machine->onTransition(array('Logger', 'logTransition')) // using call to static function
 	->forState('checkout')
@@ -149,11 +149,23 @@ $machine->forState('confirmed')
    		sendEmail($data->customer, 'Order confirmed');
    	})
    	->permit('cancel', 'cancelled');
-   ...
+
+// state events defined at state machine level
+$machine->onExitFor('checkout', function($transition, $data) {
+		// perform action after checkout	
+	})->onExitFor('checkout', function($transition, $data) {
+		// perform a secondary action after checkout
+	});
+
+...
 ```
 
-Additionally, you can define a function to be called every time the state is changed using the setStateMutator() method.
-This function only receives the new state as a single argument.
+You can add several callback functions for the same event if needed and they will be executed in order or definition.
+The onEntry() and onExit() functions are available at the state configuration level (forState()) but also events
+can also be defined at the state machine level using onEntryFor($state, $callable) and onExitFor($state, $callable) for
+clearer code organization.
+
+Additionally, you can define a function to be called every time the state is changed using the setStateMutator($callable) method. This function only receives the new state as a single argument.
 
 ## Hierarchical States
 
@@ -305,4 +317,4 @@ Sample state machines and workflows can be found inside the /examples folder
 
 Copyright (c) 2014 [Manolo Gomez](http://github.com/vegeta)
 
-Released under the MIT License.
+Released under the Apache 2.0 License.
