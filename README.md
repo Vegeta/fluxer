@@ -68,8 +68,10 @@ $stateMachine = new StateMachine();
 
 ### Configuration
 
-Create an object of type StateMachine, use the forState($state) function to configure a state and
-use the permit($trigger, $newState) function to configure transitions. 
+Create an object of type StateMachine, use the forState($originState) function to configure a state and
+use the permit($trigger, $destinationState) function to configure transitions. 
+A transition is a change of state given a certain action, called 'trigger' in this case. It goes:
+'if state is $originState, and the $trigger action is called, move to $destinationState'.
 
 ```php
 $machine = new StateMachine();
@@ -83,6 +85,9 @@ $machine->forState('pending')
 $machine->forState('confirmed')
 	->permit('cancel', 'cancelled');
 ```
+
+A state is a 'final' state when there are no transitions declared for it, in the above example, 'cancelled' is final. 
+You can add a configuration for any final state if you want events to be fired when this state is reached.
 
 NOTE: If constants are used as states or triggers, make sure they have a value that does not resolve to php's empty (0, false, null, '').
 Sticking to strings (literals or constants) is usually the best option.
@@ -99,6 +104,8 @@ $machine->fire('cancel');
 
 echo $machine->getState(); // cancelled
 ```
+The initial state can be set either using the constructor for StateMachine or explicitly calling the init($initialState) 
+function at any time, for example, when getting the state from an external data source.
 
 You can check at any time if a trigger can be fired and the complete list of available triggers for the current 
 state (introspection).
