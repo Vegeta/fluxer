@@ -115,12 +115,12 @@ function onOff() {
 	$flujo->forState('on')->permit(' ', 'off');
 	$flujo->forState('off')->permit(' ', 'on');
 
-	$flujo->onTransition(function ($event) {
-		printTransition($event);
-	});
-
 	$flujo->onUnhandledTrigger(function ($info) {
 		echo 'Trigger ' . $info['trigger'] . " not found\n";
+	})->onTransition(function ($event) {
+		printTransition($event);
+	})->onEntryFor('on', function ($info, $data) {
+		// oh look, the light went on!
 	});
 
 	$flujo->init('off');
