@@ -4,7 +4,7 @@
 	"version" : "0.1.0",
 	"type": "library",
 	"keywords": ["statemachine", "state", "callback", "event", "workflow", "finite"],
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Manolo Gomez",
